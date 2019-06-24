@@ -20,9 +20,10 @@ def newImg(gscale_img,file_name,gscale,outfile):
         map_len = 255 // len(gscale2) 
   
     pix = gscale_img.load()
-    with open("{}.txt".format(outfile), 'w') as ascii_img:
-        for y in range(img_width):
-            for x in range(img_height):
+    with open("{}".format(outfile), 'w') as ascii_img:
+        for y in range(img_height):
+            for x in range(img_width):
+                #print("{} {} {}".format(y,x,pix[y,x]))
                 char = pix[x,y]//map_len
                 if (gscale == 2):
                     if (char == 10):
@@ -40,13 +41,20 @@ def newImg(gscale_img,file_name,gscale,outfile):
 
 
 def scaleImg(img,scale_factor):
-    new_rows, new_cols = (img.size[0])//scale_factor, img.size[1]//scale_factor
+    #new_rows, new_cols = (img.size[0])//scale_factor, img.size[1]//scale_factor
+    new_rows, new_cols = img.size
+    new_cols = new_cols//scale_factor
+    new_rows = new_rows//scale_factor
     img = img.resize((new_rows,new_cols),Image.ANTIALIAS)
+    
+    print(img.size )
     return img
     
 
 def openIMG(img_name,scale_factor,gscale,outfile):
-    img = Image.open(img_name).convert("L")
+    
+    img = Image.open(img_name).convert("RGB")
+    img = img.convert("L")
    # print("{},{}".format(img_width,img_height))
     img = scaleImg(img,scale_factor)
    
