@@ -1,7 +1,6 @@
 import argparse
 from PIL import Image
 
-
 gscale1 = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
 gscale2 = "@%#*+=-:. "        
 
@@ -20,6 +19,7 @@ def newImg(gscale_img,file_name,gscale,outfile):
         map_len = 255 // len(gscale2) 
   
     pix = gscale_img.load()
+
     with open("{}".format(outfile), 'w') as ascii_img:
         for y in range(img_height):
             for x in range(img_width):
@@ -47,17 +47,34 @@ def scaleImg(img,scale_factor):
     new_rows = new_rows//scale_factor
     img = img.resize((new_rows,new_cols),Image.ANTIALIAS)
     
+    img = img.convert("RGBA")
+
+    pixdata = img.load()
+    width, height = img.size
+    for y in range(height):
+        for x in range(width):
+           # print(pixdata[x,y])
+            if pixdata[x, y] == (0, 0, 0, 0):
+                pixdata[x, y] = (255, 255, 255, 255)
+    
+
+    
+    
+    
     print(img.size )
     return img
     
 
 def openIMG(img_name,scale_factor,gscale,outfile):
+
     
-    img = Image.open(img_name).convert("RGB")
-    img = img.convert("L")
+    img = Image.open(img_name)
+
    # print("{},{}".format(img_width,img_height))
+    #img = img.convert("LA")
+
     img = scaleImg(img,scale_factor)
-   
+    img = img.convert("L")
     newImg(img,img_name,gscale,outfile)
     #img.show()
     
@@ -66,15 +83,12 @@ def openIMG(img_name,scale_factor,gscale,outfile):
     
 if __name__ == "__main__":
     
-
-    
-    
     parser = argparse.ArgumentParser(description="Img to Ascii")
     
     parser.add_argument('--file', dest='imgFile', required=True) 
     parser.add_argument('--out', dest='outFile', required=False) 
     parser.add_argument('--scale', dest='scale', required=False) 
-    parser.add_argument('--greyscale', dest='gscale', required=False)
+    parser.add_argument('--grayscale', dest='gscale', required=False)
     
     args = parser.parse_args() 
     

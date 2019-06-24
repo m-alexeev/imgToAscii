@@ -2,7 +2,7 @@ Usage:
 Run shell in the project directory 
 Works in python 3 
 
-python imgToAscii.py --file [FILENAME] --out [OUTPUT FILE] --scale [OUTPUT SCALE] --greyscale [ASCII GREYSCALE LEVEL]
+python imgToAscii.py --file [FILENAME] --out [OUTPUT FILE] --scale [OUTPUT SCALE] --grayscale [ASCII GRAYSCALE LEVEL]
 
 ex. python jpgToAscii.py --file testImage.jpg --out ascii.txt --scale 4 --greyscale 2
 
